@@ -1,9 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-
 class IVariable(ABC):
-
     pass
 
 
@@ -26,4 +24,18 @@ class IConstraint(ABC):
 
     @abstractmethod
     def add_constr(self, const_func: IFunction):
+        pass
+
+
+class IObjective(ABC):
+    @abstractmethod
+    def get_obj(self, x0):
+        pass
+
+    @abstractmethod
+    def get_grad(self, x0):
+        pass
+
+    @abstractmethod
+    def get_hessian(self, x0):
         pass
