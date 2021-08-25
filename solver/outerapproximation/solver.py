@@ -78,9 +78,9 @@ class CCQPSolver:
 
             algorithm_manager.last_upper = min(algorithm_manager.last_upper, upper_bound)
             algorithm_manager.last_lower = lower_bound
-            algorithm_manager.display()
+            # algorithm_manager.display()
 
-        return x, upper_bound
+        return x, algorithm_manager.last_upper
 
 
 class LPNLPCCQPSolver:
@@ -90,4 +90,5 @@ class LPNLPCCQPSolver:
 
     def solve(self, k: int, m: float):
         solver = GurobiLPNLPBBSolver()
-        solver.solve(k, m, self.n, self.model)
+        obj = solver.solve(k, m, self.n, self.model)
+        return obj
