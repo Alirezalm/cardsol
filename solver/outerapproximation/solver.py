@@ -68,6 +68,8 @@ class CCQPSolver:
         cut_manager = CutManager()
         n = self.model.objective.func.x.shape[0]
         delta = zeros((n, 1))
+        x = None
+        upper_bound = None
         while not algorithm_manager.is_terminated():
             x, upper_bound = primal_solver.solve(model = self.model, fixed_binary = delta, m_bound = m)
             cut_manager.add_cut(upper_bound, gx = self.model.objective.get_grad(x), x = x)
@@ -76,3 +78,6 @@ class CCQPSolver:
             algorithm_manager.last_upper = min(algorithm_manager.last_upper, upper_bound)
             algorithm_manager.last_lower = lower_bound
             algorithm_manager.display()
+
+        return x, upper_bound
+

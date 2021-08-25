@@ -32,5 +32,4 @@ class GurobiQPSolver(IPrimalSolver):
             m.addConstr(-m_bound * fixed_binary[i] <= x[i], name = f'{i}s')
         m.setParam('OutputFlag', 0)
         m.optimize()
-        print(x.x, m.objval)
         return x.x.reshape(n, 1), m.objval

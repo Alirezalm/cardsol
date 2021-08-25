@@ -9,7 +9,7 @@ from problem.variables import Variable
 from solver.outerapproximation.primal import QPPrimalSolver
 from solver.outerapproximation.solver import CCQPSolver
 
-n = 5
+n = 10
 
 Q = randn(n, n)
 Q = Q + Q.T
@@ -38,5 +38,8 @@ for i in range(n):
 model = QPModel(objective, constr)
 
 solver = CCQPSolver(model)
-
-solver.solve(3, 1, 100)
+k = 8
+m = 1
+maxiter = 100
+x, obj = solver.solve(k, m, maxiter)
+print(x, obj)
