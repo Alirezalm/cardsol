@@ -64,7 +64,7 @@ class GurobiLPNLPBBSolver:
             model.addConstr(-m * delta[i, 0] <= x[i, 0], name = f'{i}s')
         model.addConstr(delta.sum() <= k, name = 'delta')
         # model.addConstr(alpha >= -1e4)
-        model.setParam('OutputFlag', 0)
+        model.setParam('OutputFlag', 1)
         mylist = [alpha]
         for i in range(n):
             mylist.append(delta[i, 0])

@@ -10,9 +10,9 @@ from solver.outerapproximation.primal import QPPrimalSolver
 from solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 from time import time
 
-n = 5
-k = 2
-m = 0.5
+n = 10
+k = int(n/2)
+m = 1
 maxiter = 100
 
 Q = randn(n, n)
