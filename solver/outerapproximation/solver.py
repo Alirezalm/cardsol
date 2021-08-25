@@ -71,16 +71,16 @@ class CCQPSolver:
         delta = zeros((n, 1))
         x = None
         upper_bound = None
-        k = 0
+        kiter = 0
         while not algorithm_manager.is_terminated():
-            k += 1
+            kiter += 1
             x, upper_bound = primal_solver.solve(model = self.model, fixed_binary = delta, m_bound = m)
             cut_manager.add_cut(upper_bound, gx = self.model.objective.get_grad(x), x = x)
             delta, lower_bound = master_solver.solve(cut_manager, x, k, m)
 
             algorithm_manager.last_upper = min(algorithm_manager.last_upper, upper_bound)
             algorithm_manager.last_lower = lower_bound
-            algorithm_manager.display(k)
+            algorithm_manager.display(kiter)
 
         return x, algorithm_manager.last_upper
 
