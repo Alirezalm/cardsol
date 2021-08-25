@@ -1,7 +1,23 @@
 from numpy import zeros
-
 from problem.model import QPModel
+from solver.outerapproximation.master import MasterSolverManager
 from solver.outerapproximation.primal import QPPrimalSolver
+
+
+class CutManager:
+    def __init__(self):
+        self.pool = []
+
+    def add_cut(self, fx, gx, x):
+        cut_info = {
+            "fx": fx,
+            "gx": gx,
+            "x": x
+        }
+        self.pool.append(cut_info)
+
+    def get_pool(self):
+        return self.pool
 
 
 class AlgorithmController:
@@ -28,11 +44,17 @@ class AlgorithmController:
     def last_lower(self, lb):
         self.lower_list.append(lb)
 
+    def error(self):
+        return self.last_upper - self.last_lower
+
     def is_terminated(self):
-        if self.last_upper - self.last_lower <= self.tol:
+        if self.error() <= self.tol:
             return True
         else:
             return False
+
+    def display(self):
+        print(f"up: {self.last_upper} lb: {self.last_lower} error: {self.error()}")
 
 
 class CCQPSolver:
@@ -42,8 +64,15 @@ class CCQPSolver:
     def solve(self, k: int, m: float, maxiter = 100):
         algorithm_manager = AlgorithmController()
         primal_solver = QPPrimalSolver()
+        master_solver = MasterSolverManager()
+        cut_manager = CutManager()
         n = self.model.objective.func.x.shape[0]
         delta = zeros((n, 1))
         while not algorithm_manager.is_terminated():
-            x, upper_bound = primal_solver.solve(model = self.model, fixed_binary = delta)
-            break
+            x, upper_bound = primal_solver.solve(model = self.model, fixed_binary = delta, m_bound = m)
+            cut_manager.add_cut(upper_bound, gx = self.model.objective.get_grad(x), x = x)
+            delta, lower_bound = master_solver.solve(cut_manager, x, k, m)
+
+            algorithm_manager.last_upper = min(algorithm_manager.last_upper, upper_bound)
+            algorithm_manager.last_lower = lower_bound
+            algorithm_manager.display()

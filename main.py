@@ -9,7 +9,7 @@ from problem.variables import Variable
 from solver.outerapproximation.primal import QPPrimalSolver
 from solver.outerapproximation.solver import CCQPSolver
 
-n = 3
+n = 5
 
 Q = randn(n, n)
 Q = Q + Q.T
@@ -27,9 +27,9 @@ objective = QPObjective(obj_func, sense = "minimize")
 
 constr = LinearConstraint()
 
-delta = array([1, 0, 1]).reshape(n, 1)
+
 for i in range(n):
-    d = - m * delta[i]
+    d = - m
     const_func = AffineForm(A[i, :], d, x)
     constr.add_constr(const_func)
     const_func = AffineForm(-A[i, :], d, x)

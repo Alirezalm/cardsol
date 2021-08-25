@@ -8,7 +8,7 @@ import gurobipy as gp
 
 class GurobiQPSolver(IPrimalSolver):
 
-    def solve(self, model: QPModel, fixed_binary: ndarray = None):
+    def solve(self, model: QPModel, fixed_binary: ndarray, m_bound):
         m = gp.Model("qp")
 
         n = model.objective.func.x.shape[0]
@@ -16,7 +16,7 @@ class GurobiQPSolver(IPrimalSolver):
         n_const = len(model.constraints.constr_list)
         x = m.addMVar(shape = n, lb = -GRB.INFINITY)
 
-        obj = x @ model.objective.func.Q @ x + model.objective.func.c.T @ x
+        obj = x @ (0.5 * model.objective.func.Q) @ x + model.objective.func.c.T @ x
 
         if model.objective.sense == "minimize":
             sense = GRB.MINIMIZE
@@ -24,10 +24,13 @@ class GurobiQPSolver(IPrimalSolver):
             sense = GRB.MAXIMIZE
 
         m.setObjective(obj, sense)
-        for i in range(n_const):
-            const = model.constraints.constr_list[i].c.T @ x + model.constraints.constr_list[i].d
-            m.addConstr(const <= 0)
-
+        # for i in range(n_const):
+        #     const = model.constraints.constr_list[i].c.T @ x + model.constraints.constr_list[i].d
+        #     m.addConstr(const <= 0)
+        for i in range(n):
+            m.addConstr(x[i] <= m_bound * fixed_binary[i], name = f'{i}')
+            m.addConstr(-m_bound * fixed_binary[i] <= x[i], name = f'{i}s')
+        m.setParam('OutputFlag', 0)
         m.optimize()
         print(x.x, m.objval)
-        return x.x, m.objval
+        return x.x.reshape(n, 1), m.objval
