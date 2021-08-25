@@ -62,27 +62,4 @@ def cardsol_solver(n):
     print(single_tree_info)
     print()
     print(f"SINLGE THREE METHOD IS APPROXIMATELY {int(end_multiple / end_single)} TIMES FASTER")
-
-
-if __name__ == '__main__':
-    print(
-        """
-                       WELCOME TO CARDSOL USER INTERFACE 
-                       help: enter 'run' to start optimization or 'exit' to quit cardsol
-               """
-    )
-    while True:
-
-        command = input("cardsol$ ")
-
-        if command == "exit":
-            break
-        elif command == "run":
-            n = int(input("numvar: "))
-            cardsol_solver(n)
-        else:
-            continue
-        # args = sys.argv
-        # if len(args) < 2:
-        #     raise ValueError("ENTER NUMBER OF VARS")
-        # n = int(args[1])
+    print()
