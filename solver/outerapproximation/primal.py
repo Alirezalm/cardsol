@@ -10,4 +10,5 @@ class QPPrimalSolver(IPrimalSolver):
 
     def solve(self, model: QPModel, fixed_binary: ndarray):
         solver = GurobiQPSolver()
-        solver.solve(model)
+        sol, obj = solver.solve(model)
+        return sol, obj

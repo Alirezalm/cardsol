@@ -18,8 +18,6 @@ class GurobiQPSolver(IPrimalSolver):
 
         obj = x @ model.objective.func.Q @ x + model.objective.func.c.T @ x
 
-        sense = None
-
         if model.objective.sense == "minimize":
             sense = GRB.MINIMIZE
         else:
@@ -31,5 +29,5 @@ class GurobiQPSolver(IPrimalSolver):
             m.addConstr(const <= 0)
 
         m.optimize()
-        print(x.x , m.objval)
-        return x.x , m.objval
+        print(x.x, m.objval)
+        return x.x, m.objval

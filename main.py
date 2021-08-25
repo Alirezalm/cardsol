@@ -6,7 +6,8 @@ from problem.functions import QuadraticForm, AffineForm
 from problem.model import QPModel
 from problem.objective import QPObjective
 from problem.variables import Variable
-from solver.primal import QPPrimalSolver
+from solver.outerapproximation.primal import QPPrimalSolver
+from solver.outerapproximation.solver import CCQPSolver
 
 n = 3
 
@@ -33,8 +34,9 @@ for i in range(n):
     constr.add_constr(const_func)
     const_func = AffineForm(-A[i, :], d, x)
     constr.add_constr(const_func)
+
 model = QPModel(objective, constr)
 
-solver = QPPrimalSolver()
+solver = CCQPSolver(model)
 
-solver.solve(model, None)
+solver.solve(3, 1, 100)
