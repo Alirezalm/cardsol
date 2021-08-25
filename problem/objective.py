@@ -1,8 +1,9 @@
-from problem.abstract_classes import IFunction, IObjective
+from problem.abstract_classes import IObjective
+from problem.functions import QuadraticForm
 
 
-class Objective(IObjective):
-    def __init__(self, func: IFunction, sense: str = "minimize"):
+class QPObjective(IObjective):
+    def __init__(self, func: QuadraticForm, sense: str = "minimize"):
         self.func = func
         self.sense = sense
 
