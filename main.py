@@ -1,5 +1,5 @@
 from numpy import array
-from numpy.random import randn
+from numpy.random import randn, rand
 from numpy import eye
 from problem.constraints import LinearConstraint
 from problem.functions import QuadraticForm, AffineForm
@@ -9,54 +9,80 @@ from problem.variables import Variable
 from solver.outerapproximation.primal import QPPrimalSolver
 from solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 from time import time
+import sys
 
-n = 10
-k = int(n/2)
-m = 1
-maxiter = 100
 
-Q = randn(n, n)
-Q = Q + Q.T
-Q = Q.T @ Q
-c = randn(n, 1)
+def cardsol_solver(n):
+    k = int(n / 2)
+    m = 1
+    maxiter = 100
 
-A = eye(n, n)
+    Q = rand(n, n)
+    Q = Q + Q.T
+    Q = Q.T @ Q
+    c = randn(n, 1)
 
-x = Variable(shape = (n, 1), name = "x")
+    A = eye(n, n)
 
-obj_func = QuadraticForm(Q, c, x)
+    x = Variable(shape = (n, 1), name = "x")
 
-objective = QPObjective(obj_func, sense = "minimize")
+    obj_func = QuadraticForm(Q, c, x)
 
-constr = LinearConstraint()
+    objective = QPObjective(obj_func, sense = "minimize")
 
-model = QPModel(objective, constr)
+    constr = LinearConstraint()
 
-multiple_tree = CCQPSolver(model)
+    model = QPModel(objective, constr)
 
-single_tree = LPNLPCCQPSolver(model)
+    multiple_tree = CCQPSolver(model)
 
-start_multiple = time()
-_, obj_1 = multiple_tree.solve(k, m, 100)
-end_multiple = time() - start_multiple
+    single_tree = LPNLPCCQPSolver(model)
 
-start_single = time()
-obj_2 = single_tree.solve(k, m)
-end_single = time() - start_single
+    start_single = time()
+    obj_2 = single_tree.solve(k, m)
+    end_single = time() - start_single
 
-multiple_tree_info = f"""
-                MULTIPLE TREE METHOD:
-                    SOLUTION TIME: {end_multiple}
-                    OPTIMAL OBJ:{obj_1}
-"""
-single_tree_info = f"""
-                SINGLE TREE METHOD:
-                    SOLUTION TIME: {end_single}
-                    OPTIMAL OBJ:{obj_2}
-"""
+    start_multiple = time()
+    _, obj_1 = multiple_tree.solve(k, m, 100)
+    end_multiple = time() - start_multiple
 
-print(multiple_tree_info)
-print()
-print(single_tree_info)
-print()
-print(f"SINLGE THREE METHOD IS APPROXIMATELY {int(end_multiple / end_single)} TIMES FASTER")
+    multiple_tree_info = f"""
+                    MULTIPLE TREE METHOD:
+                        SOLUTION TIME: {end_multiple}
+                        OPTIMAL OBJ:{obj_1}
+    """
+    single_tree_info = f"""
+                    SINGLE TREE METHOD:
+                        SOLUTION TIME: {end_single}
+                        OPTIMAL OBJ:{obj_2}
+    """
+
+    print(multiple_tree_info)
+    print()
+    print(single_tree_info)
+    print()
+    print(f"SINLGE THREE METHOD IS APPROXIMATELY {int(end_multiple / end_single)} TIMES FASTER")
+
+
+if __name__ == '__main__':
+    print(
+        """
+                       WELCOME TO CARDSOL USER INTERFACE 
+                       help: enter 'run' to start optimization or 'exit' to quit cardsol
+               """
+    )
+    while True:
+
+        command = input("cardsol$ ")
+
+        if command == "exit":
+            break
+        elif command == "run":
+            n = int(input("numvar: "))
+            cardsol_solver(n)
+        else:
+            continue
+        # args = sys.argv
+        # if len(args) < 2:
+        #     raise ValueError("ENTER NUMBER OF VARS")
+        # n = int(args[1])

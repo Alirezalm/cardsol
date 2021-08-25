@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["pytest"]
+CMD ["python", "main.py 10"]
