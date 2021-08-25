@@ -7,9 +7,9 @@ from problem.model import QPModel
 from problem.objective import QPObjective
 from problem.variables import Variable
 from solver.outerapproximation.primal import QPPrimalSolver
-from solver.outerapproximation.solver import CCQPSolver
+from solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 
-n = 10
+n = 5
 
 Q = randn(n, n)
 Q = Q + Q.T
@@ -37,9 +37,13 @@ for i in range(n):
 
 model = QPModel(objective, constr)
 
-solver = CCQPSolver(model)
-k = 8
-m = 1
+solver1 = CCQPSolver(model)
+
+solver = LPNLPCCQPSolver(model)
+
+k = 2
+m = 0.5
 maxiter = 100
-x, obj = solver.solve(k, m, maxiter)
-print(x, obj)
+solver1.solve(k, m, 100)
+solver.solve(k, m)
+# print(x, obj)

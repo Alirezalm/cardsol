@@ -2,6 +2,7 @@ from numpy import zeros
 from problem.model import QPModel
 from solver.outerapproximation.master import MasterSolverManager
 from solver.outerapproximation.primal import QPPrimalSolver
+from solver.subsolvers.gurobilpnlp import GurobiLPNLPBBSolver
 
 
 class CutManager:
@@ -81,3 +82,12 @@ class CCQPSolver:
 
         return x, upper_bound
 
+
+class LPNLPCCQPSolver:
+    def __init__(self, model: QPModel):
+        self.model = model
+        self.n = self.model.objective.func.x.shape[0]
+
+    def solve(self, k: int, m: float):
+        solver = GurobiLPNLPBBSolver()
+        solver.solve(k, m, self.n, self.model)
