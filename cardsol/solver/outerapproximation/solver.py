@@ -1,8 +1,8 @@
 from numpy import zeros
-from problem.model import QPModel
-from solver.outerapproximation.master import MasterSolverManager
-from solver.outerapproximation.primal import QPPrimalSolver
-from solver.subsolvers.gurobilpnlp import GurobiLPNLPBBSolver
+from cardsol.problem.model import QPModel
+from cardsol.solver.outerapproximation.master import MasterSolverManager
+from cardsol.solver.outerapproximation.primal import QPPrimalSolver
+from cardsol.solver.subsolvers.gurobilpnlp import GurobiLPNLPBBSolver
 
 
 class CutManager:

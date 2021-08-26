@@ -1,15 +1,13 @@
-from numpy import array
 from numpy.random import randn, rand
 from numpy import eye
-from problem.constraints import LinearConstraint
-from problem.functions import QuadraticForm, AffineForm
-from problem.model import QPModel
-from problem.objective import QPObjective
-from problem.variables import Variable
-from solver.outerapproximation.primal import QPPrimalSolver
-from solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 from time import time
-import sys
+
+from cardsol.problem.constraints import LinearConstraint
+from cardsol.problem.functions import QuadraticForm
+from cardsol.problem.model import QPModel
+from cardsol.problem.objective import QPObjective
+from cardsol.problem.variables import Variable
+from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 
 
 def cardsol_solver(n):

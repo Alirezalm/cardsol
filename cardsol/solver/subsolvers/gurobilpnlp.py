@@ -1,12 +1,10 @@
 from gurobipy.gurobipy import GRB
-from numpy import ndarray
 import gurobipy as gp
 from numpy import array
 from numpy import zeros
 
-from problem.model import QPModel
-from solver.abstract_solver import IMasterSolver
-from solver.outerapproximation.primal import QPPrimalSolver
+from cardsol.problem.model import QPModel
+from cardsol.solver.outerapproximation.primal import QPPrimalSolver
 
 
 class GurobiLPNLPBBSolver:

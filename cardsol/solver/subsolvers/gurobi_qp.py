@@ -1,8 +1,8 @@
 from gurobipy.gurobipy import GRB
 from numpy import ndarray
 
-from problem.model import QPModel
-from solver.abstract_solver import IPrimalSolver
+from cardsol.problem.model import QPModel
+from cardsol.solver.abstract_solver import IPrimalSolver
 import gurobipy as gp
 
 

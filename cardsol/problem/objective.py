@@ -1,5 +1,5 @@
-from problem.abstract_classes import IObjective
-from problem.functions import QuadraticForm
+from cardsol.problem.abstract_classes import IObjective
+from cardsol.problem.functions import QuadraticForm
 
 
 class QPObjective(IObjective):

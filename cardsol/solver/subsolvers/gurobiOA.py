@@ -1,7 +1,7 @@
 from gurobipy.gurobipy import GRB
 from numpy.core.multiarray import ndarray
 import gurobipy as gp
-from solver.abstract_solver import IMasterSolver
+from cardsol.solver.abstract_solver import IMasterSolver
 
 
 class GurobiOA(IMasterSolver):

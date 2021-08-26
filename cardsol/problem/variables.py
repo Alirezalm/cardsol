@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from problem.abstract_classes import IVariable
+from cardsol.problem.abstract_classes import IVariable
 
 
 class Variable(IVariable):

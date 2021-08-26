@@ -1,4 +1,4 @@
-from problem.abstract_classes import IFunction, IVariable
+from cardsol.problem.abstract_classes import IFunction, IVariable
 
 from numpy import ndarray
 

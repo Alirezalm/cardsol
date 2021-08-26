@@ -1,7 +1,7 @@
 from numpy import ndarray
 from abc import ABC, abstractmethod
 
-from problem.model import IModel
+from cardsol.problem.model import IModel
 
 
 class IPrimalSolver(ABC):

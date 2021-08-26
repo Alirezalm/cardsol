@@ -1,6 +1,6 @@
-from problem.abstract_classes import IObjective, IConstraint, IModel
-from problem.constraints import LinearConstraint
-from problem.objective import QPObjective
+from cardsol.problem.abstract_classes import IModel
+from cardsol.problem.constraints import LinearConstraint
+from cardsol.problem.objective import QPObjective
 
 
 class QPModel(IModel):

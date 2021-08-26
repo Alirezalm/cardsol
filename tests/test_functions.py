@@ -1,7 +1,7 @@
 from numpy.random import randn
 from numpy import allclose
-from problem.functions import QuadraticForm, AffineForm
-from problem.variables import Variable
+from cardsol.problem import QuadraticForm, AffineForm
+from cardsol.problem import Variable
 
 n = 5
 

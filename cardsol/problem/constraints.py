@@ -1,7 +1,7 @@
 from typing import List
 
-from problem.abstract_classes import IConstraint, IFunction
-from problem.functions import AffineForm
+from cardsol.problem.abstract_classes import IConstraint
+from cardsol.problem.functions import AffineForm
 
 
 class LinearConstraint(IConstraint):

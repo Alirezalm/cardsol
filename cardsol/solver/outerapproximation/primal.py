@@ -1,7 +1,7 @@
 from numpy import ndarray
-from problem.model import QPModel
-from solver.abstract_solver import IPrimalSolver
-from solver.subsolvers.gurobi_qp import GurobiQPSolver
+from cardsol.problem.model import QPModel
+from cardsol.solver.abstract_solver import IPrimalSolver
+from cardsol.solver.subsolvers.gurobi_qp import GurobiQPSolver
 
 
 class QPPrimalSolver(IPrimalSolver):
