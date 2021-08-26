@@ -1,6 +1,5 @@
 ### Cardinality Constrained Quadratic Optimization Solver (cardsol) 
 
----
 *cardsol* is a small package for solving mathematical optimization problems of convex Cardinality Constrained Quadratic
 Optimization (CCQP) problems. 
 
