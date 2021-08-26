@@ -33,7 +33,7 @@ from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
 #### Define problem Data
 ```python    
 n = ...     # number of variables
-k = int(n / 2)
+k = int(n / 2) # level of cardinality
 m = 1
 maxiter = 100
 
