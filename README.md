@@ -74,3 +74,9 @@ start_multiple = time()
 _, obj_1 = multiple_tree.solve(k, m, 100)
 end_multiple = time() - start_multiple
 ```
+
+### Creating Docker Image
+
+```commandline
+sudo docker build .
+```

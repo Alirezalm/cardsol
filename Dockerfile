@@ -11,5 +11,3 @@ CMD ["source", "./env/bin/activate"]
 RUN pip install -r requirements.txt
 
 COPY . .
-
-CMD ["python", "main.py 10"]
