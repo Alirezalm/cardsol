@@ -17,7 +17,7 @@ class GurobiLPNLPBBSolver:
                 incumbent = my_model.cbGetSolution(my_model._vars)
                 incumbent = array(incumbent).reshape(-1, 1)
                 fixed_bin = incumbent[1: n + 1]
-                x_decision = my_model._vars[n+1:]
+                x_decision = my_model._vars[n + 1:]
                 primal_solver = QPPrimalSolver()
                 sol, obj = primal_solver.solve(primal_model, fixed_bin, m)
                 cut = {
@@ -25,7 +25,9 @@ class GurobiLPNLPBBSolver:
                     "gx": primal_model.objective.get_grad(sol),
                     "x": sol,
                 }
-                model.cbLazy(cut['fx'] + sum([cut['gx'][j][0] * (x_decision[j] - sol[j]) for j in range(n)]) <= my_model._vars[0])
+                model.cbLazy(
+                    cut['fx'] + sum([cut['gx'][j][0] * (x_decision[j] - sol[j]) for j in range(n)]) <= my_model._vars[
+                        0])
 
         psolver = QPPrimalSolver()
         fixed_bin = zeros((n, 1))
@@ -36,8 +38,6 @@ class GurobiLPNLPBBSolver:
             "gx": primal_model.objective.get_grad(sol),
             "x": sol,
         }
-
-
 
         model = gp.Model("master")
         alpha = model.addVar(lb = - GRB.INFINITY)
@@ -55,7 +55,7 @@ class GurobiLPNLPBBSolver:
         delta = model.addVars(n, 1, lb = -GRB.INFINITY, vtype = GRB.BINARY)
 
         model.addConstr(
-            cut['fx'] + sum([cut['gx'][j][0] * (x[j,0] - sol[j]) for j in range(n)]) <= alpha)
+            cut['fx'] + sum([cut['gx'][j][0] * (x[j, 0] - sol[j]) for j in range(n)]) <= alpha)
 
         for i in range(n):
             model.addConstr(x[i, 0] <= m * delta[i, 0], name = f'{i}')
