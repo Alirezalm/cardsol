@@ -6,5 +6,6 @@ from cardsol.problem.objective import QPObjective
 class QPModel(IModel):
 
     def __init__(self, objective: QPObjective, constraints: LinearConstraint):
+
         self.objective = objective
         self.constraints = constraints

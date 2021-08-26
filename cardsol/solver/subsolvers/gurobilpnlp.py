@@ -1,10 +1,11 @@
+import click
 from gurobipy.gurobipy import GRB
 import gurobipy as gp
 from numpy import array
 from numpy import zeros
 
 from cardsol.problem.model import QPModel
-from cardsol.solver.outerapproximation.primal import QPPrimalSolver
+from cardsol.solver.outer_lpnlp.primal import QPPrimalSolver
 
 
 class GurobiLPNLPBBSolver:
@@ -24,7 +25,6 @@ class GurobiLPNLPBBSolver:
                     "gx": primal_model.objective.get_grad(sol),
                     "x": sol,
                 }
-
                 model.cbLazy(cut['fx'] + sum([cut['gx'][j][0] * (x_decision[j] - sol[j]) for j in range(n)]) <= my_model._vars[0])
 
         psolver = QPPrimalSolver()

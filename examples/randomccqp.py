@@ -1,13 +1,14 @@
+import sys
+
 from numpy.random import randn, rand
 from numpy import eye
 from time import time
-
 from cardsol.problem.constraints import LinearConstraint
 from cardsol.problem.functions import QuadraticForm
 from cardsol.problem.model import QPModel
 from cardsol.problem.objective import QPObjective
 from cardsol.problem.variables import Variable
-from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
+from cardsol.solver.outer_lpnlp.solver import CCQPSolver, LPNLPCCQPSolver
 
 
 def cardsol_solver(n):
@@ -15,7 +16,7 @@ def cardsol_solver(n):
     m = 1
     maxiter = 100
 
-    Q = rand(n, n)
+    Q = 10 * rand(n, n)
     Q = Q + Q.T
     Q = Q.T @ Q
     c = randn(n, 1)
@@ -41,7 +42,7 @@ def cardsol_solver(n):
     end_single = time() - start_single
 
     start_multiple = time()
-    _, obj_1 = multiple_tree.solve(k, m, 100)
+    _, obj_1 = multiple_tree.solve(k, m, maxiter)
     end_multiple = time() - start_multiple
 
     multiple_tree_info = f"""
@@ -61,3 +62,8 @@ def cardsol_solver(n):
     print()
     print(f"SINLGE THREE METHOD IS APPROXIMATELY {int(end_multiple / end_single)} TIMES FASTER")
     print()
+
+
+if __name__ == '__main__':
+    n = int(sys.argv[1])
+    cardsol_solver(n)

@@ -1,8 +1,12 @@
 from numpy import zeros
 from cardsol.problem.model import QPModel
-from cardsol.solver.outerapproximation.master import MasterSolverManager
-from cardsol.solver.outerapproximation.primal import QPPrimalSolver
+from cardsol.solver.outer_lpnlp.master import MasterSolverManager
+from cardsol.solver.outer_lpnlp.primal import QPPrimalSolver
 from cardsol.solver.subsolvers.gurobilpnlp import GurobiLPNLPBBSolver
+import click
+import subprocess
+
+subprocess.run("clear")
 
 
 class CutManager:
@@ -16,13 +20,16 @@ class CutManager:
             "x": x
         }
         self.pool.append(cut_info)
+        # click.secho("oa cut added to master problem\n".upper(), fg = 'green')
 
     def get_pool(self):
+        # click.secho("generating cuts\n".upper(), fg = 'green')
         return self.pool
 
 
 class AlgorithmController:
-    def __init__(self, tol = 1e-3, upper = 1e4, lower = -1e4):
+    def __init__(self, tol = 1e-8, upper = 1e4, lower = -1e4):
+        click.secho("initialization\n".upper(), fg = 'green')
         self.tol = tol
         self.upper = upper
         self.lower = lower
@@ -35,6 +42,7 @@ class AlgorithmController:
 
     @last_upper.setter
     def last_upper(self, up):
+        # click.secho("updating upper bound \n".upper(), fg = 'green')
         self.upper_list.append(up)
 
     @property
@@ -43,6 +51,7 @@ class AlgorithmController:
 
     @last_lower.setter
     def last_lower(self, lb):
+        # click.secho("updating lower bound \n".upper(), fg = 'green')
         self.lower_list.append(lb)
 
     def error(self):
@@ -50,15 +59,23 @@ class AlgorithmController:
 
     def is_terminated(self):
         if self.error() <= self.tol:
+            click.secho("outer approximation terminated successfully".upper(), fg = 'green')
             return True
         else:
             return False
 
     def display(self, k):
-        print(f"iter: {k} up: {self.last_upper} lb: {self.last_lower} error: {self.error()}")
+
+        click.secho(f"{k:3}       {self.last_upper:3.5f}       {self.last_lower:3.5f}       {self.error():3.5f}", fg = "blue")
 
 
 class CCQPSolver:
+    click.secho("""
+    
+                                       cardsol: cardinality constrained optimization solver
+                                       
+    """.upper(), fg = 'blue', bold = True)
+
     def __init__(self, model: QPModel):
         self.model = model
 
@@ -72,7 +89,9 @@ class CCQPSolver:
         x = None
         upper_bound = None
         kiter = 0
-        while not algorithm_manager.is_terminated():
+        click.secho("=============== cardsol started =============== \n".upper(), fg = 'green')
+        click.secho("iter           up          lb          error", fg = "blue")
+        while (not algorithm_manager.is_terminated()) & (kiter <= maxiter):
             kiter += 1
             x, upper_bound = primal_solver.solve(model = self.model, fixed_binary = delta, m_bound = m)
             cut_manager.add_cut(upper_bound, gx = self.model.objective.get_grad(x), x = x)
@@ -91,6 +110,11 @@ class LPNLPCCQPSolver:
         self.n = self.model.objective.func.x.shape[0]
 
     def solve(self, k: int, m: float):
+        click.secho("""
+
+                                          lp/nlp based branch and cut method is started (single tree oa)
+
+        """.upper(), fg = 'green', bold = True)
         solver = GurobiLPNLPBBSolver()
         obj = solver.solve(k, m, self.n, self.model)
         return obj

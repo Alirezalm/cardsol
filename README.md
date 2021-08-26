@@ -19,6 +19,7 @@ the following algorithms to solve it:
 
 
 ### Imports
+
 ```python
 from numpy.random import randn, rand
 from numpy import eye
@@ -28,7 +29,7 @@ from cardsol.problem.functions import QuadraticForm
 from cardsol.problem.model import QPModel
 from cardsol.problem.objective import QPObjective
 from cardsol.problem.variables import Variable
-from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
+from cardsol.solver.outer_lpnlp.solver import CCQPSolver, LPNLPCCQPSolver
 ```
 #### Define problem Data
 ```python    
