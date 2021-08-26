@@ -17,50 +17,60 @@ the following algorithms to solve it:
 
 ### Example: Random convex CCQP
 
+
 ### Imports
-    from numpy.random import randn, rand
-    from numpy import eye
-    from time import time
-    from cardsol.problem.constraints import LinearConstraint
-    from cardsol.problem.functions import QuadraticForm
-    from cardsol.problem.model import QPModel
-    from cardsol.problem.objective import QPObjective
-    from cardsol.problem.variables import Variable
-    from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
-
+```python
+from numpy.random import randn, rand
+from numpy import eye
+from time import time
+from cardsol.problem.constraints import LinearConstraint
+from cardsol.problem.functions import QuadraticForm
+from cardsol.problem.model import QPModel
+from cardsol.problem.objective import QPObjective
+from cardsol.problem.variables import Variable
+from cardsol.solver.outerapproximation.solver import CCQPSolver, LPNLPCCQPSolver
+```
 #### Define problem Data
-    
-    n = ...     # number of variables
-    k = int(n / 2)
-    m = 1
-    maxiter = 100
+```python    
+n = ...     # number of variables
+k = int(n / 2)
+m = 1
+maxiter = 100
 
-    Q = rand(n, n) 
-    Q = Q + Q.T
-    Q = Q.T @ Q     # Hessian Matrix
-    c = randn(n, 1) # gradient vector    
+Q = rand(n, n) 
+Q = Q + Q.T
+Q = Q.T @ Q     # Hessian Matrix
+c = randn(n, 1) # gradient vector   
+```
 ### Define the model
-    x = Variable(shape = (n, 1), name = "x")
+```python
+x = Variable(shape = (n, 1), name = "x")
 
-    obj_func = QuadraticForm(Q, c, x)
+obj_func = QuadraticForm(Q, c, x)
 
-    objective = QPObjective(obj_func, sense = "minimize")
+objective = QPObjective(obj_func, sense = "minimize")
 
-    constr = LinearConstraint()
+constr = LinearConstraint()
 
-    model = QPModel(objective, constr)
+model = QPModel(objective, constr)
+```
+
 
 ### Instantiate Solvers
-    multiple_tree = CCQPSolver(model)
+```python
+multiple_tree = CCQPSolver(model)
 
-    single_tree = LPNLPCCQPSolver(model)
+single_tree = LPNLPCCQPSolver(model)
+```
 
 ### Solve the model
 
-    start_single = time()
-    obj_2 = single_tree.solve(k, m)
-    end_single = time() - start_single
+```python
+start_single = time()
+obj_2 = single_tree.solve(k, m)
+end_single = time() - start_single
 
-    start_multiple = time()
-    _, obj_1 = multiple_tree.solve(k, m, 100)
-    end_multiple = time() - start_multiple
+start_multiple = time()
+_, obj_1 = multiple_tree.solve(k, m, 100)
+end_multiple = time() - start_multiple
+```
