@@ -15,6 +15,11 @@ the following algorithms to solve it:
 2. Numpy
 3. Gurobipy and gurobi solver
 
+
+### Install
+```commandline
+pip install cardsol
+```
 ### Example: Random convex CCQP
 
 
