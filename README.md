@@ -3,7 +3,7 @@
 *cardsol* is a small package for solving mathematical optimization problems of convex Cardinality Constrained Quadratic
 Optimization (CCQP) problems. 
 
-cardsol translates the CCQP problem into a Mixed-Integer Optimization Problem (MIQP) provides 
+cardsol translates the CCQP problem into a Mixed-Integer Quadratic Programming (MIQP) problem and provides 
 the following algorithms to solve it:
 
 1. Outer Approximation (OA) method
